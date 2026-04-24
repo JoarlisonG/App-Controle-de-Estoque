@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estoque Joarlison | Tema & Gestão</title>
+    <title>Estoque Joarlison | Sistema Completo</title>
     <style>
         :root {
-            /* Tema Escuro (Padrão) */
             --bg-body: #0b1120;
             --bg-container: rgba(30, 41, 59, 0.5);
             --bg-card: #1e293b;
@@ -16,10 +15,10 @@
             --border: #334155;
             --primary: #22c55e;
             --accent: #facc15;
+            --danger: #ef4444;
         }
 
         [data-theme="light"] {
-            /* Tema Claro */
             --bg-body: #f1f5f9;
             --bg-container: #ffffff;
             --bg-card: #f8fafc;
@@ -29,7 +28,7 @@
             --border: #e2e8f0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.2s, color 0.2s; }
         
         body {
             font-family: 'Inter', system-ui, sans-serif;
@@ -64,22 +63,14 @@
             padding: 8px 12px;
             border-radius: 12px;
             cursor: pointer;
-            font-size: 1.2rem;
         }
 
-        h1 {
-            font-size: 1.4rem;
-            background: linear-gradient(120deg, #c084fc, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* Dashboard Financeiro */
+        /* Dashboard */
         .resumo-financeiro {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 12px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .card-financeiro {
@@ -92,6 +83,21 @@
 
         .card-financeiro .label { font-size: 0.6rem; color: var(--text-sub); text-transform: uppercase; margin-bottom: 5px; }
         .card-financeiro .valor { font-size: 1.2rem; font-weight: 800; }
+
+        /* Barra de Busca */
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-container input {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 12px 15px;
+            border-radius: 15px;
+            width: 100%;
+            color: var(--text-main);
+            outline: none;
+        }
 
         /* Formulário */
         .form-grid {
@@ -115,7 +121,6 @@
             border-radius: 12px;
             color: var(--text-main);
             font-size: 0.95rem;
-            width: 100%;
             outline: none;
         }
 
@@ -123,16 +128,11 @@
 
         .btn-add {
             background: var(--primary);
-            color: white;
-            border: none;
-            padding: 15px;
-            border-radius: 14px;
-            font-weight: 800;
-            margin-top: 10px;
-            cursor: pointer;
+            color: white; border: none; padding: 15px;
+            border-radius: 14px; font-weight: 800; cursor: pointer;
         }
 
-        /* Lista de Itens */
+        /* Cards */
         .produto-card {
             background: var(--bg-card);
             border-radius: 20px;
@@ -142,6 +142,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            position: relative;
         }
 
         .info h3 { font-size: 1rem; color: var(--text-main); margin-bottom: 4px; }
@@ -162,25 +163,26 @@
             color: #000;
             border: none;
             width: 70px;
-            height: 55px;
-            border-radius: 15px;
+            height: 60px;
+            border-radius: 18px;
             font-weight: 900;
             font-size: 0.7rem;
             cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        /* Botão apagar individual */
-        .btn-delete-item {
-            background: none;
-            border: none;
-            color: #ef4444;
-            font-size: 0.8rem;
-            margin-top: 10px;
-            cursor: pointer;
+        .actions-row {
             display: flex;
-            align-items: center;
-            gap: 4px;
+            gap: 15px;
+            margin-top: 10px;
         }
+
+        .action-btn {
+            background: none; border: none; font-size: 0.75rem; cursor: pointer; display: flex; align-items: center; gap: 4px;
+        }
+
+        .btn-delete { color: var(--danger); }
+        .btn-edit { color: var(--text-sub); }
 
         /* Modal */
         .modal-overlay {
@@ -193,43 +195,66 @@
         }
         .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
         .modal-btns button { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
-        .btn-cancel { background: #475569; color: white; }
-        .btn-confirm { background: #ef4444; color: white; }
 
         .show { display: flex; }
-        .btn-reset { background: none; border: none; color: var(--text-sub); font-size: 0.7rem; cursor: pointer; padding: 10px; width: 100%; }
+        
+        .footer-tools {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-tool {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-sub);
+            padding: 10px;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            cursor: pointer;
+        }
+
+        .estoque-alerta {
+            color: var(--danger) !important;
+            font-weight: 800;
+        }
     </style>
 </head>
 <body data-theme="dark">
 
 <div class="container">
     <header>
-        <h1>Estoque Pro</h1>
+        <h1>Joarlison Master 📦</h1>
         <button class="theme-toggle" onclick="toggleTheme()" id="themeIcon">🌙</button>
     </header>
 
     <div class="resumo-financeiro">
         <div class="card-financeiro">
-            <div class="label">Caixa Hoje</div>
+            <div class="label">Faturamento</div>
             <div class="valor" id="faturamentoReal" style="color: var(--accent);">R$ 0,00</div>
         </div>
         <div class="card-financeiro">
-            <div class="label">Lucro Real</div>
-            <div class="valor" id="lucroReal" style="color: #4ade80;">R$ 0,00</div>
+            <div class="label">Lucro Limpo</div>
+            <div class="valor" id="lucroReal" style="color: var(--primary);">R$ 0,00</div>
         </div>
+    </div>
+
+    <div class="search-container">
+        <input type="text" id="searchInput" placeholder="🔍 Buscar produto..." oninput="render()">
     </div>
 
     <div class="form-grid">
         <div class="input-group">
-            <label>Modelo</label>
+            <label>Tipo de Entrada</label>
             <select id="tipo" onchange="toggleForm()">
-                <option value="producao">Produção (Dindin, Bolo...)</option>
-                <option value="revenda">Revenda / Brique</option>
+                <option value="producao">Produção (Eu fabrico)</option>
+                <option value="revenda">Revenda (Compra e Venda)</option>
             </select>
         </div>
         <div class="input-group">
             <label>Nome do Produto</label>
-            <input type="text" id="nome" placeholder="Ex: iPhone 11">
+            <input type="text" id="nome" placeholder="Ex: iPhone 12">
         </div>
         <div class="row">
             <div class="input-group">
@@ -237,20 +262,23 @@
                 <input type="number" id="custo" placeholder="0.00">
             </div>
             <div class="input-group">
-                <label>Qtd</label>
+                <label>Estoque Inicial</label>
                 <input type="number" id="qtd" value="1">
             </div>
         </div>
         <div class="input-group">
-            <label>Preço Venda (un)</label>
+            <label>Preço Venda Unitário</label>
             <input type="number" id="venda" placeholder="0.00">
         </div>
-        <button class="btn-add" onclick="adicionar()">Cadastrar Produto</button>
+        <button class="btn-add" onclick="adicionar()">Cadastrar Agora</button>
     </div>
 
     <div id="listaProdutos"></div>
 
-    <button onclick="abrirModalReset()" class="btn-reset">Zerar Caixa do Dia</button>
+    <div class="footer-tools">
+        <button onclick="exportarCSV()" class="btn-tool">📊 Exportar para Excel (CSV)</button>
+        <button onclick="abrirModalReset()" class="btn-tool">🧹 Limpar Caixa do Dia</button>
+    </div>
 </div>
 
 <div class="modal-overlay" id="modalConfirm">
@@ -258,33 +286,31 @@
         <h3 id="modalTitle">Confirmar?</h3>
         <p id="modalMsg" style="margin-top: 10px; color: var(--text-sub); font-size: 0.9rem;"></p>
         <div class="modal-btns">
-            <button class="btn-cancel" onclick="fecharModal()">Voltar</button>
-            <button class="btn-confirm" id="btnConfirmAction">Confirmar</button>
+            <button onclick="fecharModal()" style="background: #475569; color: white;">Voltar</button>
+            <button id="btnConfirmAction" style="background: var(--danger); color: white;">Confirmar</button>
         </div>
     </div>
 </div>
 
 <script>
-    let produtos = JSON.parse(localStorage.getItem('estoque_v7')) || [];
-    let faturamento = parseFloat(localStorage.getItem('fatur_v7')) || 0;
-    let custoVendido = parseFloat(localStorage.getItem('custo_v7')) || 0;
+    let produtos = JSON.parse(localStorage.getItem('estoque_v_master')) || [];
+    let faturamento = parseFloat(localStorage.getItem('fatur_v_master')) || 0;
+    let custoVendido = parseFloat(localStorage.getItem('custo_v_master')) || 0;
 
-    // --- TEMA CLARO/ESCURO ---
     function toggleTheme() {
         const body = document.body;
         const currentTheme = body.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         body.setAttribute('data-theme', newTheme);
         document.getElementById('themeIcon').innerText = newTheme === 'dark' ? '🌙' : '☀️';
-        localStorage.setItem('theme_v7', newTheme);
+        localStorage.setItem('theme_master', newTheme);
     }
 
-    // Carregar tema salvo
-    if(localStorage.getItem('theme_v7') === 'light') toggleTheme();
+    if(localStorage.getItem('theme_master') === 'light') toggleTheme();
 
     function toggleForm() {
         const t = document.getElementById('tipo').value;
-        document.getElementById('labelCusto').innerText = t === 'revenda' ? "Preço Compra" : "Gasto Produção";
+        document.getElementById('labelCusto').innerText = t === 'revenda' ? "Preço de Compra" : "Gasto na Produção";
     }
 
     function adicionar() {
@@ -299,8 +325,14 @@
         const cUnit = custoB / (qtd || 1);
 
         produtos.push({
-            id: Date.now(), tipo, nome, custoUnit: cUnit, 
-            vendaUnit: venda, qtdEstoque: qtd || 1, vendidos: 0
+            id: Date.now(),
+            tipo,
+            nome,
+            custoUnit: cUnit, 
+            vendaUnit: venda, 
+            qtdEstoque: qtd || 1, 
+            vendidos: 0,
+            data: new Date().toLocaleDateString('pt-BR')
         });
 
         salvar();
@@ -318,27 +350,6 @@
         }
     }
 
-    // --- EXCLUSÃO INDIVIDUAL COM MODAL ---
-    function confirmarExclusao(id) {
-        const p = produtos.find(item => item.id === id);
-        abrirModal(
-            "Apagar Produto?", 
-            `Deseja remover "${p.nome}" do estoque permanentemente?`,
-            () => {
-                produtos = produtos.filter(item => item.id !== id);
-                salvar();
-            }
-        );
-    }
-
-    function abrirModalReset() {
-        abrirModal(
-            "Zerar Caixa?", 
-            "Isso resetará o faturamento de hoje. O estoque não será alterado.",
-            () => { faturamento = 0; custoVendido = 0; salvar(); }
-        );
-    }
-
     function abrirModal(titulo, msg, acao) {
         const modal = document.getElementById('modalConfirm');
         document.getElementById('modalTitle').innerText = titulo;
@@ -349,10 +360,47 @@
 
     function fecharModal() { document.getElementById('modalConfirm').classList.remove('show'); }
 
+    function confirmarExclusao(id) {
+        const p = produtos.find(item => item.id === id);
+        abrirModal("Excluir?", `Remover ${p.nome}?`, () => {
+            produtos = produtos.filter(item => item.id !== id);
+            salvar();
+        });
+    }
+
+    function abrirModalReset() {
+        abrirModal("Resetar?", "Zerar faturamento de hoje?", () => { 
+            faturamento = 0; custoVendido = 0; salvar(); 
+        });
+    }
+
+    function editarProduto(id) {
+        const p = produtos.find(i => i.id === id);
+        const novoNome = prompt("Novo nome:", p.nome);
+        const novoPreco = prompt("Novo preço de venda:", p.vendaUnit);
+        
+        if(novoNome) p.nome = novoNome;
+        if(novoPreco) p.vendaUnit = parseFloat(novoPreco);
+        salvar();
+    }
+
+    function exportarCSV() {
+        let csv = "Produto;Tipo;Custo Unit;Venda Unit;Estoque;Vendidos;Data\n";
+        produtos.forEach(p => {
+            csv += `${p.nome};${p.tipo};${p.custoUnit.toFixed(2)};${p.vendaUnit.toFixed(2)};${p.qtdEstoque};${p.vendidos};${p.data}\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'estoque_joarlison.csv';
+        a.click();
+    }
+
     function salvar() {
-        localStorage.setItem('estoque_v7', JSON.stringify(produtos));
-        localStorage.setItem('fatur_v7', faturamento);
-        localStorage.setItem('custo_v7', custoVendido);
+        localStorage.setItem('estoque_v_master', JSON.stringify(produtos));
+        localStorage.setItem('fatur_v_master', faturamento);
+        localStorage.setItem('custo_v_master', custoVendido);
         render();
     }
 
@@ -360,19 +408,30 @@
         document.getElementById('faturamentoReal').innerText = `R$ ${faturamento.toFixed(2)}`;
         document.getElementById('lucroReal').innerText = `R$ ${(faturamento - custoVendido).toFixed(2)}`;
 
+        const busca = document.getElementById('searchInput').value.toLowerCase();
         const container = document.getElementById('listaProdutos');
-        container.innerHTML = produtos.map(p => `
+        
+        const produtosFiltrados = produtos.filter(p => p.nome.toLowerCase().includes(busca));
+
+        container.innerHTML = produtosFiltrados.map(p => `
             <div class="produto-card">
                 <div class="info">
                     <span class="badge" style="background: ${p.tipo === 'producao' ? '#c084fc' : '#60a5fa'}">
                         ${p.tipo === 'producao' ? 'PRODUÇÃO' : 'REVENDA'}
                     </span>
                     <h3>${p.nome}</h3>
-                    <p>Vendido: ${p.vendidos} | Estoque: <b>${p.qtdEstoque}</b></p>
-                    <button class="btn-delete-item" onclick="confirmarExclusao(${p.id})">🗑️ Apagar Produto</button>
+                    <p>Preço: R$ ${p.vendaUnit.toFixed(2)} | Vendido: ${p.vendidos}</p>
+                    <p class="${p.qtdEstoque < 3 ? 'estoque-alerta' : ''}">
+                        ${p.qtdEstoque === 0 ? '❌ ESGOTADO' : '📦 Estoque: ' + p.qtdEstoque}
+                    </p>
+                    
+                    <div class="actions-row">
+                        <button class="action-btn btn-edit" onclick="editarProduto(${p.id})">✏️ Editar</button>
+                        <button class="action-btn btn-delete" onclick="confirmarExclusao(${p.id})">🗑️ Apagar</button>
+                    </div>
                 </div>
                 <button class="btn-venda" onclick="vender(${p.id})" ${p.qtdEstoque === 0 ? 'disabled' : ''}>
-                    ${p.qtdEstoque === 0 ? 'FIM' : 'VENDI<br>+1'}
+                    ${p.qtdEstoque === 0 ? '---' : 'VENDI<br>+1'}
                 </button>
             </div>
         `).join('');
@@ -383,6 +442,7 @@
         document.getElementById('custo').value = '';
         document.getElementById('venda').value = '';
         document.getElementById('qtd').value = 1;
+        document.getElementById('nome').focus();
     }
 
     render();
