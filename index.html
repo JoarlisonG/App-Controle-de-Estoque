@@ -29,166 +29,54 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: var(--bg-body);
-            color: var(--text-main);
-            padding: 10px;
-            min-height: 100vh;
-            overflow-x: hidden;
-            width: 100vw;
-        }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg-body); color: var(--text-main); padding: 10px; min-height: 100vh; overflow-x: hidden; width: 100vw; }
+        .container { width: 100%; max-width: 450px; margin: 0 auto; background: var(--bg-container); backdrop-filter: blur(20px); border-radius: 24px; padding: 16px; border: 1px solid var(--border); }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        #app-name { font-size: 1.1rem; background: linear-gradient(120deg, #c084fc, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 800; transition: opacity 0.5s; }
+        .theme-toggle { background: var(--bg-card); border: 1px solid var(--border); padding: 8px; border-radius: 12px; cursor: pointer; }
 
-        .container {
-            width: 100%;
-            max-width: 450px;
-            margin: 0 auto;
-            background: var(--bg-container);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            padding: 16px;
-            border: 1px solid var(--border);
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        #app-name {
-            font-size: 1.1rem;
-            background: linear-gradient(120deg, #c084fc, #60a5fa);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            font-weight: 800;
-            transition: opacity 0.5s;
-        }
-
-        .theme-toggle {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 8px;
-            border-radius: 12px;
-            cursor: pointer;
-        }
-
-        .resumo-financeiro {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-
-        .card-financeiro {
-            background: var(--bg-card);
-            padding: 12px;
-            border-radius: 18px;
-            border: 1px solid var(--border);
-            text-align: center;
-        }
-
+        .resumo-financeiro { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .card-financeiro { background: var(--bg-card); padding: 12px; border-radius: 18px; border: 1px solid var(--border); text-align: center; }
         .card-financeiro .label { font-size: 0.55rem; color: var(--text-sub); text-transform: uppercase; font-weight: 700; }
         .card-financeiro .valor { font-size: 1rem; font-weight: 800; }
 
-        .search-container input {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 12px;
-            border-radius: 14px;
-            width: 100%;
-            color: var(--text-main);
-            margin-bottom: 15px;
-            outline: none;
-        }
+        .card-meta { background: var(--bg-card); padding: 12px; border-radius: 18px; border: 1px solid var(--border); margin-bottom: 15px; }
+        .meta-header { display: flex; justify-content: space-between; font-size: 0.6rem; color: var(--text-sub); text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+        .barra-progresso { width: 100%; height: 8px; background: var(--bg-input); border-radius: 10px; overflow: hidden; }
+        .progresso-fill { height: 100%; background: var(--primary); width: 0%; transition: width 0.5s ease; }
 
-        .form-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            background: var(--bg-card);
-            padding: 15px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-        }
+        .search-container input { background: var(--bg-card); border: 1px solid var(--border); padding: 12px; border-radius: 14px; width: 100%; color: var(--text-main); margin-bottom: 15px; outline: none; }
 
+        .filtros-container { display: flex; gap: 8px; margin-bottom: 15px; overflow-x: auto; padding-bottom: 5px; }
+        .btn-filtro { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-sub); padding: 6px 12px; border-radius: 10px; font-size: 0.7rem; cursor: pointer; white-space: nowrap; }
+        .btn-filtro.ativo { background: var(--primary); color: white; border-color: var(--primary); }
+
+        .form-grid { display: flex; flex-direction: column; gap: 12px; background: var(--bg-card); padding: 15px; border-radius: 20px; margin-bottom: 20px; border: 1px solid var(--border); }
         .input-group { display: flex; flex-direction: column; gap: 4px; width: 100%; }
         label { font-size: 0.6rem; font-weight: 700; color: var(--text-sub); text-transform: uppercase; }
-        
-        input, select {
-            background: var(--bg-input);
-            border: 1px solid var(--border);
-            padding: 12px;
-            border-radius: 10px;
-            color: var(--text-main);
-            font-size: 0.9rem;
-            width: 100%;
-        }
-
-        .row-inputs { 
-            display: flex; 
-            flex-wrap: wrap; 
-            gap: 10px; 
-            width: 100%;
-        }
+        input, select { background: var(--bg-input); border: 1px solid var(--border); padding: 12px; border-radius: 10px; color: var(--text-main); font-size: 0.9rem; width: 100%; outline: none; }
+        .row-inputs { display: flex; flex-wrap: wrap; gap: 10px; width: 100%; }
         .row-inputs .input-group { flex: 1 1 140px; }
+        .btn-add { background: var(--primary); color: white; border: none; padding: 15px; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; }
 
-        .btn-add {
-            background: var(--primary);
-            color: white; border: none; padding: 15px;
-            border-radius: 12px; font-weight: 800; cursor: pointer;
-            width: 100%;
-        }
+        .produto-card { background: var(--bg-card); border-radius: 18px; padding: 15px; margin-bottom: 10px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+        .btn-venda { background: var(--accent); color: #000; border: none; width: 65px; height: 60px; border-radius: 15px; font-weight: 900; font-size: 0.65rem; }
+        .acoes-card { display: flex; gap: 12px; margin-top: 8px; }
+        .btn-acao { background: none; border: none; font-size: 0.7rem; cursor: pointer; color: var(--text-sub); text-decoration: underline; }
 
-        .produto-card {
-            background: var(--bg-card);
-            border-radius: 18px;
-            padding: 15px;
-            margin-bottom: 10px;
-            border: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+        .historico-section { margin-top: 20px; background: var(--bg-card); padding: 15px; border-radius: 20px; border: 1px solid var(--border); }
+        .historico-section h4 { font-size: 0.8rem; margin-bottom: 10px; color: var(--accent); text-transform: uppercase; }
+        .hist-item { display: flex; justify-content: space-between; font-size: 0.7rem; padding: 10px 5px; border-bottom: 1px solid var(--border); cursor: pointer; }
 
-        .badge {
-            display: inline-block; padding: 2px 6px; border-radius: 5px; font-size: 0.55rem; font-weight: 800; margin-bottom: 5px; color: #fff;
-        }
-
-        .btn-venda {
-            background: var(--accent);
-            color: #000; border: none; width: 65px; height: 60px; border-radius: 15px; font-weight: 900; font-size: 0.65rem;
-        }
-
-        .acoes-card {
-            display: flex;
-            gap: 12px;
-            margin-top: 8px;
-        }
-
-        .btn-acao {
-            background: none; border: none; font-size: 0.7rem; cursor: pointer; color: var(--text-sub); text-decoration: underline;
-        }
-
-        /* MODAL PERSONALIZADO */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 9999;
-            padding: 20px;
-        }
-        .modal {
-            background: var(--bg-card); padding: 24px; border-radius: 24px; text-align: center;
-            width: 100%; max-width: 320px; border: 1px solid var(--border);
-        }
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 9999; padding: 20px; }
+        .modal { background: var(--bg-card); padding: 24px; border-radius: 24px; text-align: center; width: 100%; max-width: 350px; border: 1px solid var(--border); max-height: 90vh; overflow-y: auto; }
         .show { display: flex; }
-
-        .btn-tool {
-            background: var(--bg-card); border: 1px solid var(--border); color: var(--text-sub); 
-            padding: 12px; border-radius: 12px; font-size: 0.7rem; width: 100%; margin-top: 8px;
-        }
+        .btn-tool { background: var(--bg-card); border: 1px solid var(--border); color: var(--text-sub); padding: 12px; border-radius: 12px; font-size: 0.7rem; width: 100%; margin-top: 8px; font-weight: bold; }
+        .relatorio-lista { text-align: left; margin: 15px 0; font-size: 0.8rem; border-top: 1px solid var(--border); padding-top: 10px; }
+        .relatorio-item { display: flex; justify-content: space-between; margin-bottom: 5px; }
+        
+        /* Ajuste para inputs dentro de modais */
+        .modal-input { margin-bottom: 10px; text-align: left; }
     </style>
 </head>
 <body data-theme="dark">
@@ -210,8 +98,24 @@
         </div>
     </div>
 
+    <div class="card-meta">
+        <div class="meta-header">
+            <span>Meta Diária</span>
+            <span id="metaStatus" onclick="abrirModalMeta()" style="cursor:pointer">Definir Meta ⚙️</span>
+        </div>
+        <div class="barra-progresso">
+            <div class="progresso-fill" id="metaFill"></div>
+        </div>
+    </div>
+
     <div class="search-container">
         <input type="text" id="busca" placeholder="Buscar no estoque..." oninput="render()">
+    </div>
+
+    <div class="filtros-container">
+        <button class="btn-filtro ativo" onclick="filtrar('todos', this)">Todos</button>
+        <button class="btn-filtro" onclick="filtrar('producao', this)">Produção</button>
+        <button class="btn-filtro" onclick="filtrar('revenda', this)">Revenda</button>
     </div>
 
     <div class="form-grid">
@@ -246,8 +150,15 @@
     <div id="lista"></div>
 
     <div class="footer-tools">
-        <button onclick="exportarCSV()" class="btn-tool">📊 Exportar para Excel (CSV)</button>
+        <button onclick="copiarRelatorioAtual()" class="btn-tool" style="color: var(--accent);">📋 Copiar Relatório Atual</button>
+        <button onclick="gerarBackup()" class="btn-tool" style="color: #60a5fa;">💾 Gerar Backup (Token)</button>
+        <button onclick="abrirModalImportar()" class="btn-tool">📥 Restaurar Backup</button>
         <button onclick="abrirModalReset()" class="btn-tool">🧹 Zerar Caixa do Dia</button>
+    </div>
+
+    <div class="historico-section" id="histSec" style="display: none;">
+        <h4>📅 Últimos Fechamentos</h4>
+        <div id="histLista"></div>
     </div>
 </div>
 
@@ -256,34 +167,40 @@
         <h3 id="modalTitle" style="color: var(--text-main); margin-bottom: 8px;"></h3>
         <div id="modalBody">
             <p id="modalMsg" style="color: var(--text-sub); font-size: 0.85rem; margin-bottom: 20px;"></p>
+            <div id="relatorioDetalhado" class="relatorio-lista" style="display: none;"></div>
         </div>
-        <div id="modalInputs" style="display: none; flex-direction: column; gap: 10px; margin-bottom: 20px;">
-            <input type="text" id="editNome" placeholder="Novo Nome">
-            <input type="number" id="editVenda" placeholder="Novo Preço Venda">
+        
+        <div id="modalInputsArea" style="display: none; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+            <div class="modal-input" id="divEditNome"><label>Nome</label><input type="text" id="editNome"></div>
+            <div class="modal-input" id="divEditVenda"><label>Preço Venda</label><input type="number" id="editVenda"></div>
+            <div class="modal-input" id="divMeta"><label>Valor da Meta (R$)</label><input type="number" id="inputMeta"></div>
+            <div class="modal-input" id="divBackup"><label>Cole o Código do Backup</label><input type="text" id="inputBackup"></div>
         </div>
+
         <div style="display: flex; gap: 10px;">
-            <button onclick="fecharModal()" style="flex:1; padding:12px; border-radius:10px; border:none; background:#475569; color:white;">Sair</button>
+            <button onclick="fecharModal()" style="flex:1; padding:12px; border-radius:10px; border:none; background:#475569; color:white;">Voltar</button>
             <button id="btnConfirmAction" style="flex:1; padding:12px; border-radius:10px; border:none; background:var(--primary); color:white;">Confirmar</button>
         </div>
+        <button id="btnCopiarHist" class="btn-tool" style="display: none; margin-top: 15px; background: var(--bg-body); color: var(--accent);">📋 Copiar este Fechamento</button>
     </div>
 </div>
 
 <script>
-    let produtos = JSON.parse(localStorage.getItem('stk_v10')) || [];
-    let fat = parseFloat(localStorage.getItem('ft_v10')) || 0;
-    let cst = parseFloat(localStorage.getItem('cs_v10')) || 0;
+    let produtos = JSON.parse(localStorage.getItem('stk_v14')) || [];
+    let fat = parseFloat(localStorage.getItem('ft_v14')) || 0;
+    let cst = parseFloat(localStorage.getItem('cs_v14')) || 0;
+    let historico = JSON.parse(localStorage.getItem('hist_v14')) || [];
+    let metaDiaria = parseFloat(localStorage.getItem('meta_v14')) || 0;
+    let filtroAtual = 'todos';
 
+    // --- ANIMAÇÃO NOME ---
     const titulos = ["Controle de Estoque 📦", "Brique & Produção 💰", "Gestão de Vendas 📈", "Meu Negócio Pro 🚀"];
     let iTit = 0;
     setInterval(() => {
         const el = document.getElementById('app-name');
         if(!el) return;
         el.style.opacity = 0;
-        setTimeout(() => {
-            iTit = (iTit + 1) % titulos.length;
-            el.innerText = titulos[iTit];
-            el.style.opacity = 1;
-        }, 500);
+        setTimeout(() => { iTit = (iTit + 1) % titulos.length; el.innerText = titulos[iTit]; el.style.opacity = 1; }, 500);
     }, 4000);
 
     function toggleTheme() {
@@ -291,105 +208,193 @@
         const nt = b.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         b.setAttribute('data-theme', nt);
         document.getElementById('themeIcon').innerText = nt === 'dark' ? '🌙' : '☀️';
-        localStorage.setItem('th_v10', nt);
+        localStorage.setItem('th_v14', nt);
     }
-    if(localStorage.getItem('th_v10') === 'light') toggleTheme();
+    if(localStorage.getItem('th_v14') === 'light') toggleTheme();
 
-    function toggleForm() {
-        const t = document.getElementById('tipo').value;
-        document.getElementById('labelCusto').innerText = t === 'revenda' ? "Preço de Compra" : "Gasto Produção";
+    function filtrar(tipo, btn) {
+        filtroAtual = tipo;
+        document.querySelectorAll('.btn-filtro').forEach(b => b.classList.remove('ativo'));
+        btn.classList.add('ativo');
+        render();
     }
 
-    function abrirModal(t, m, a, isEdit = false, pObj = null, isAlert = false) {
-        const mod = document.getElementById('modalConfirm');
-        const btnConf = document.getElementById('btnConfirmAction');
-        const msgEl = document.getElementById('modalMsg');
-        const inputsEl = document.getElementById('modalInputs');
-        
+    // --- MODAL PARA TUDO ---
+    function resetModalDisplay() {
+        document.getElementById('modalMsg').style.display = 'none';
+        document.getElementById('relatorioDetalhado').style.display = 'none';
+        document.getElementById('modalInputsArea').style.display = 'none';
+        document.getElementById('btnCopiarHist').style.display = 'none';
+        document.getElementById('btnConfirmAction').style.display = 'block';
+        document.getElementById('divEditNome').style.display = 'none';
+        document.getElementById('divEditVenda').style.display = 'none';
+        document.getElementById('divMeta').style.display = 'none';
+        document.getElementById('divBackup').style.display = 'none';
+    }
+
+    function abrirModal(t, acao = null) {
+        resetModalDisplay();
         document.getElementById('modalTitle').innerText = t;
-        
-        if(isEdit) {
-            msgEl.style.display = 'none';
-            inputsEl.style.display = 'flex';
-            document.getElementById('editNome').value = pObj.nome;
-            document.getElementById('editVenda').value = pObj.vendaUnit;
-            btnConf.style.display = 'block';
-            btnConf.style.background = 'var(--primary)';
-        } else if(isAlert) {
-            msgEl.style.display = 'block';
-            msgEl.innerText = m;
-            inputsEl.style.display = 'none';
-            btnConf.style.display = 'none'; // Esconde botão confirmar se for só aviso
-        } else {
-            msgEl.style.display = 'block';
-            msgEl.innerText = m;
-            inputsEl.style.display = 'none';
-            btnConf.style.display = 'block';
-            btnConf.style.background = 'var(--danger)';
-        }
-
+        const mod = document.getElementById('modalConfirm');
         mod.classList.add('show');
-        btnConf.onclick = () => { a(); fecharModal(); };
+        document.getElementById('btnConfirmAction').onclick = () => { if(acao) acao(); fecharModal(); };
     }
 
     function fecharModal() { document.getElementById('modalConfirm').classList.remove('show'); }
 
+    // --- FUNÇÕES ESPECÍFICAS DOS MODAIS ---
+    function abrirModalMeta() {
+        abrirModal("Definir Meta");
+        document.getElementById('modalInputsArea').style.display = 'flex';
+        document.getElementById('divMeta').style.display = 'block';
+        document.getElementById('inputMeta').value = metaDiaria;
+        document.getElementById('btnConfirmAction').onclick = () => {
+            metaDiaria = parseFloat(document.getElementById('inputMeta').value) || 0;
+            salvar(); fecharModal();
+        };
+    }
+
+    function abrirModalImportar() {
+        abrirModal("Restaurar Backup");
+        document.getElementById('modalInputsArea').style.display = 'flex';
+        document.getElementById('divBackup').style.display = 'block';
+        document.getElementById('inputBackup').value = "";
+        document.getElementById('btnConfirmAction').onclick = () => {
+            const token = document.getElementById('inputBackup').value;
+            try {
+                const dados = JSON.parse(atob(token));
+                produtos = dados.produtos; fat = dados.fat; cst = dados.cst;
+                historico = dados.historico; metaDiaria = dados.metaDiaria || 0;
+                salvar();
+                abrirModal("Sucesso", null); 
+                document.getElementById('modalMsg').style.display = 'block';
+                document.getElementById('modalMsg').innerText = "Dados restaurados!";
+                document.getElementById('btnConfirmAction').style.display = 'none';
+            } catch(e) { 
+                abrirModal("Erro", null);
+                document.getElementById('modalMsg').style.display = 'block';
+                document.getElementById('modalMsg').innerText = "Código inválido.";
+                document.getElementById('btnConfirmAction').style.display = 'none';
+            }
+        };
+    }
+
+    function editarProduto(id) {
+        const p = produtos.find(i => i.id === id);
+        abrirModal("Editar Produto");
+        document.getElementById('modalInputsArea').style.display = 'flex';
+        document.getElementById('divEditNome').style.display = 'block';
+        document.getElementById('divEditVenda').style.display = 'block';
+        document.getElementById('editNome').value = p.nome;
+        document.getElementById('editVenda').value = p.vendaUnit;
+        document.getElementById('btnConfirmAction').onclick = () => {
+            p.nome = document.getElementById('editNome').value;
+            p.vendaUnit = parseFloat(document.getElementById('editVenda').value);
+            salvar(); fecharModal();
+        };
+    }
+
+    function confirmarExclusao(id) {
+        const p = produtos.find(i => i.id === id);
+        abrirModal("Excluir?", () => { produtos = produtos.filter(i => i.id !== id); salvar(); });
+        document.getElementById('modalMsg').style.display = 'block';
+        document.getElementById('modalMsg').innerText = `Deseja remover ${p.nome}?`;
+    }
+
+    function abrirModalReset() {
+        if(fat === 0) {
+            abrirModal("Atenção");
+            document.getElementById('modalMsg').style.display = 'block';
+            document.getElementById('modalMsg').innerText = "O caixa já está vazio.";
+            document.getElementById('btnConfirmAction').style.display = 'none';
+            return;
+        }
+        abrirModal("Zerar Caixa?", () => {
+            const data = new Date().toLocaleString('pt-BR', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'});
+            const itens = produtos.filter(p => p.vendidos > 0).map(p => ({nome: p.nome, qtd: p.vendidos, valor: (p.vendaUnit * p.vendidos).toFixed(2)}));
+            historico.unshift({ data, fat: fat.toFixed(2), luc: (fat-cst).toFixed(2), itens });
+            if(historico.length > 10) historico.pop();
+            fat = 0; cst = 0; produtos.forEach(p => p.vendidos = 0); salvar();
+        });
+        document.getElementById('modalMsg').style.display = 'block';
+        document.getElementById('modalMsg').innerText = "Deseja salvar as vendas no histórico antes de limpar?";
+    }
+
+    function verDetalhesHist(index) {
+        const h = historico[index];
+        abrirModal("Resumo do Dia");
+        document.getElementById('btnConfirmAction').style.display = 'none';
+        const relEl = document.getElementById('relatorioDetalhado');
+        relEl.style.display = 'block';
+        let html = `<p style="font-size:0.7rem; margin-bottom:10px">${h.data}</p>`;
+        let texto = `📊 FECHAMENTO ${h.data}\n\n`;
+        h.itens.forEach(it => {
+            html += `<div class="relatorio-item"><span>${it.nome} (x${it.qtd})</span><span>R$ ${it.valor}</span></div>`;
+            texto += `• ${it.nome} (x${it.qtd}): R$ ${it.valor}\n`;
+        });
+        html += `<div class="relatorio-item" style="margin-top:10px; border-top:1px dashed var(--border); padding-top:10px;"><b>TOTAL</b><b>R$ ${h.fat}</b></div>`;
+        texto += `\n💰 TOTAL: R$ ${h.fat}\n📈 LUCRO: R$ ${h.luc}`;
+        relEl.innerHTML = html;
+        document.getElementById('btnCopiarHist').style.display = 'block';
+        document.getElementById('btnCopiarHist').onclick = () => copiarTexto(texto);
+    }
+
+    // --- LOGICA GERAL ---
+    function toggleForm() { document.getElementById('labelCusto').innerText = document.getElementById('tipo').value === 'revenda' ? "Preço de Compra" : "Gasto Produção"; }
+
     function adicionar() {
-        const n = document.getElementById('nome').value.trim();
-        const c = parseFloat(document.getElementById('custo').value);
-        const q = parseInt(document.getElementById('qtd').value);
-        const v = parseFloat(document.getElementById('venda').value);
+        const n = document.getElementById('nome').value.trim(), c = parseFloat(document.getElementById('custo').value), q = parseInt(document.getElementById('qtd').value), v = parseFloat(document.getElementById('venda').value);
         if(!n || isNaN(c) || isNaN(v)) return;
         produtos.push({ id: Date.now(), tipo: document.getElementById('tipo').value, nome: n, custoUnit: c/q, vendaUnit: v, qtdEstoque: q, vendidos: 0 });
         salvar(); limpar();
     }
 
-    function vender(id) {
-        const p = produtos.find(i => i.id === id);
-        if(p.qtdEstoque > 0) { p.qtdEstoque--; p.vendidos++; fat += p.vendaUnit; cst += p.custoUnit; salvar(); }
+    function vender(id) { const p = produtos.find(i => i.id === id); if(p.qtdEstoque > 0) { p.qtdEstoque--; p.vendidos++; fat += p.vendaUnit; cst += p.custoUnit; salvar(); } }
+
+    function copiarRelatorioAtual() {
+        let t = `📊 RELATÓRIO ATUAL (${new Date().toLocaleDateString()})\n\n`;
+        produtos.forEach(p => { if(p.vendidos > 0 || p.qtdEstoque > 0) t += `${p.nome}: ${p.qtdEstoque} estoque | ${p.vendidos} vendidos\n`; });
+        t += `\n💰 TOTAL: R$ ${fat.toFixed(2)}\n📈 LUCRO: R$ ${(fat-cst).toFixed(2)}`;
+        copiarTexto(t);
     }
 
-    function editarProduto(id) {
-        const p = produtos.find(i => i.id === id);
-        abrirModal("Editar Produto", "", () => {
-            const nn = document.getElementById('editNome').value.trim();
-            const np = parseFloat(document.getElementById('editVenda').value);
-            if(nn) p.nome = nn;
-            if(!isNaN(np)) p.vendaUnit = np;
-            salvar();
-        }, true, p);
-    }
+    function copiarTexto(txt) { navigator.clipboard.writeText(txt).then(() => { 
+        abrirModal("Copiado!"); 
+        document.getElementById('modalMsg').style.display = 'block';
+        document.getElementById('modalMsg').innerText = "Texto enviado para o teclado.";
+        document.getElementById('btnConfirmAction').style.display = 'none';
+    }); }
 
-    function confirmarExclusao(id) {
-        const p = produtos.find(i => i.id === id);
-        abrirModal("Excluir Item?", `Remover ${p.nome}?`, () => {
-            produtos = produtos.filter(i => i.id !== id);
-            salvar();
-        });
-    }
-
-    function abrirModalReset() {
-        abrirModal("Zerar Caixa?", "Limpar as vendas de hoje?", () => { fat = 0; cst = 0; salvar(); });
+    function gerarBackup() {
+        const token = btoa(JSON.stringify({ produtos, fat, cst, historico, metaDiaria }));
+        copiarTexto(token);
     }
 
     function salvar() {
-        localStorage.setItem('stk_v10', JSON.stringify(produtos));
-        localStorage.setItem('ft_v10', fat);
-        localStorage.setItem('cs_v10', cst);
+        localStorage.setItem('stk_v14', JSON.stringify(produtos));
+        localStorage.setItem('ft_v14', fat);
+        localStorage.setItem('cs_v14', cst);
+        localStorage.setItem('hist_v14', JSON.stringify(historico));
+        localStorage.setItem('meta_v14', metaDiaria);
         render();
     }
 
     function render() {
         document.getElementById('fatReal').innerText = `R$ ${fat.toFixed(2)}`;
         document.getElementById('lucReal').innerText = `R$ ${(fat - cst).toFixed(2)}`;
+        const perc = metaDiaria > 0 ? Math.min((fat / metaDiaria) * 100, 100) : 0;
+        document.getElementById('metaFill').style.width = perc + "%";
+        document.getElementById('metaStatus').innerText = metaDiaria > 0 ? `R$ ${fat.toFixed(0)} / R$ ${metaDiaria.toFixed(0)} ⚙️` : "Definir Meta ⚙️";
+        
         const b = document.getElementById('busca').value.toLowerCase();
-        const filtrados = produtos.filter(p => p.nome.toLowerCase().includes(b));
+        const filtrados = produtos.filter(p => p.nome.toLowerCase().includes(b) && (filtroAtual === 'todos' || p.tipo === filtroAtual));
+        
         document.getElementById('lista').innerHTML = filtrados.map(p => `
             <div class="produto-card">
                 <div class="info">
                     <span class="badge" style="background:${p.tipo === 'producao' ? '#c084fc' : '#60a5fa'}">${p.tipo.toUpperCase()}</span>
                     <h3>${p.nome}</h3>
-                    <p>Preço: R$ ${p.vendaUnit.toFixed(2)} | Vendido: ${p.vendidos}</p>
+                    <p>R$ ${p.vendaUnit.toFixed(2)} | Vendido: ${p.vendidos}</p>
                     <p style="color: ${p.qtdEstoque < 3 ? 'var(--danger)' : 'var(--text-sub)'}">Estoque: ${p.qtdEstoque}</p>
                     <div class="acoes-card">
                         <button class="btn-acao" onclick="editarProduto(${p.id})">Editar</button>
@@ -399,36 +404,14 @@
                 <button class="btn-venda" onclick="vender(${p.id})" ${p.qtdEstoque === 0 ? 'disabled' : ''}>VENDI<br>+1</button>
             </div>
         `).join('');
-    }
 
-    function limpar() {
-        document.getElementById('nome').value = ''; document.getElementById('custo').value = ''; 
-        document.getElementById('venda').value = ''; document.getElementById('qtd').value = 1;
-    }
-
-    // CORREÇÃO DO EXPORTAR
-    function exportarCSV() {
-        if(produtos.length === 0) {
-            abrirModal("Atenção", "Cadastre produtos antes de exportar.", null, false, null, true);
-            return;
+        if(historico.length > 0) {
+            document.getElementById('histSec').style.display = 'block';
+            document.getElementById('histLista').innerHTML = historico.map((h, idx) => `<div class="hist-item" onclick="verDetalhesHist(${idx})"><span>${h.data}</span><span style="color:var(--accent)">R$ ${h.fat}</span><span>➔</span></div>`).join('');
         }
-        
-        let csv = "Produto;Tipo;Custo Unit;Venda Unit;Estoque;Vendidos\n";
-        produtos.forEach(p => {
-            csv += `${p.nome};${p.tipo};${p.custoUnit.toFixed(2)};${p.vendaUnit.toFixed(2)};${p.qtdEstoque};${p.vendidos}\n`;
-        });
-
-        const blob = new Blob(["\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "meu_estoque.csv");
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
     }
 
+    function limpar() { document.getElementById('nome').value = ''; document.getElementById('custo').value = ''; document.getElementById('venda').value = ''; document.getElementById('qtd').value = 1; }
     render();
 </script>
 </body>
