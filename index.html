@@ -3,273 +3,298 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estoque Joarlison | Gestão Financeira</title>
+    <title>Estoque Joarlison | UI Refinada</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        
         body {
-            font-family: 'Inter', system-ui, sans-serif;
-            background: linear-gradient(135deg, #0b1120 0%, #111827 100%);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #0b1120;
             color: #f1f5f9;
-            padding: 20px;
+            padding: 15px; /* Reduzi um pouco para aproveitar tela no mobile */
             min-height: 100vh;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 800px; /* Centraliza melhor em telas grandes */
             margin: 0 auto;
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(15px);
-            border-radius: 24px;
-            padding: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            background: rgba(30, 41, 59, 0.5);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 25px;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
             background: linear-gradient(120deg, #c084fc, #60a5fa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        /* Cards de Dinheiro */
+        /* Cards Financeiros mais compactos e elegantes */
         .resumo-financeiro {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
             margin-bottom: 25px;
         }
 
         .card-financeiro {
-            background: rgba(15, 23, 42, 0.6);
-            padding: 20px;
+            background: #1e293b;
+            padding: 15px;
             border-radius: 20px;
             border: 1px solid #334155;
             text-align: center;
         }
 
-        .card-financeiro .label { font-size: 0.75rem; color: #94a3b8; text-transform: uppercase; margin-bottom: 8px; }
-        .card-financeiro .valor { font-size: 1.8rem; font-weight: 800; color: #4ade80; }
-        .valor.venda-realizada { color: #facc15; }
+        .card-financeiro .label { font-size: 0.6rem; color: #94a3b8; text-transform: uppercase; margin-bottom: 5px; }
+        .card-financeiro .valor { font-size: 1.2rem; font-weight: 800; }
 
-        /* Formulário */
+        /* Formulário com espaçamento melhorado */
         .form-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            background: rgba(15, 23, 42, 0.4);
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Espaço entre as linhas do form */
+            background: rgba(15, 23, 42, 0.6);
             padding: 20px;
-            border-radius: 18px;
-            margin-bottom: 25px;
-            align-items: end;
+            border-radius: 22px;
+            margin-bottom: 30px;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
 
         .input-group { display: flex; flex-direction: column; gap: 6px; }
-        label { font-size: 0.65rem; font-weight: 700; color: #94a3b8; }
+        label { font-size: 0.65rem; font-weight: 700; color: #64748b; padding-left: 5px; }
         
         input, select {
-            background: #0f172a; border: 1px solid #334155;
-            padding: 10px; border-radius: 10px; color: white; outline: none;
+            background: #0f172a;
+            border: 1px solid #334155;
+            padding: 14px;
+            border-radius: 14px;
+            color: white;
+            font-size: 1rem;
+            width: 100%;
         }
 
         .btn-add {
-            background: linear-gradient(95deg, #22c55e, #16a34a);
-            color: white; border: none; padding: 12px;
-            border-radius: 10px; font-weight: 700; cursor: pointer;
+            background: #22c55e;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1rem;
+            margin-top: 5px;
+            cursor: pointer;
         }
 
-        /* Tabela */
-        .tabela-container {
-            background: #0f172a; border-radius: 18px; overflow: hidden; border: 1px solid #334155;
+        /* TABELA / CARDS MOBILE */
+        .lista-produtos { margin-top: 10px; }
+
+        /* Esconder tabela no mobile */
+        .tabela-desktop { display: none; }
+
+        /* Estilo dos Cards de Produto (Mobile) */
+        .produto-card {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 15px;
+            border: 1px solid #334155;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 10px;
         }
 
-        table { width: 100%; border-collapse: collapse; }
-        th { background: #1e293b; padding: 12px; text-align: left; color: #94a3b8; font-size: 0.75rem; }
-        td { padding: 12px; border-bottom: 1px solid #1e293b; font-size: 0.85rem; }
+        .info-produto h3 { font-size: 1.1rem; margin-bottom: 5px; color: #fff; }
+        .info-produto p { font-size: 0.8rem; color: #94a3b8; }
+        .meta-info { display: flex; gap: 10px; margin-top: 8px; }
+        .badge-estoque { background: #0f172a; padding: 4px 8px; border-radius: 6px; font-size: 0.7rem; }
 
-        .btn-venda-acao {
-            background: #facc15; color: #000; border: none; padding: 6px 12px;
-            border-radius: 8px; cursor: pointer; font-weight: 800;
+        .btn-venda-mobile {
+            background: #facc15;
+            color: #000;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 18px;
+            font-weight: 800;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            box-shadow: 0 4px 15px rgba(250, 204, 21, 0.2);
         }
 
-        /* Modal */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 1000;
+        .btn-venda-mobile span { font-size: 1rem; }
+
+        .btn-excluir {
+            background: none;
+            border: none;
+            color: #475569;
+            padding: 10px;
+            font-size: 0.8rem;
+            text-align: center;
+            width: 100%;
         }
-        .modal { background: #1e293b; padding: 25px; border-radius: 20px; width: 90%; max-width: 350px; text-align: center; }
-        .visible { display: flex; }
+
+        /* Desktop: Mostrar tabela e esconder cards */
+        @media (min-width: 600px) {
+            .tabela-desktop { display: table; width: 100%; border-collapse: collapse; }
+            .produto-card { display: none; }
+            .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); }
+            .btn-add { grid-column: span 3; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>Painel de Vendas & Estoque</h1>
+    <h1>Controle de Estoque</h1>
 
     <div class="resumo-financeiro">
         <div class="card-financeiro">
-            <div class="label">💰 Total em Vendas (Caixa)</div>
-            <div class="valor venda-realizada" id="faturamentoReal">R$ 0,00</div>
+            <div class="label">Vendas Realizadas</div>
+            <div class="valor" id="faturamentoReal" style="color: #facc15;">R$ 0,00</div>
         </div>
         <div class="card-financeiro">
-            <div class="label">📈 Lucro Líquido Real</div>
-            <div class="valor" id="lucroReal">R$ 0,00</div>
+            <div class="label">Lucro Líquido Real</div>
+            <div class="valor" id="lucroReal" style="color: #4ade80;">R$ 0,00</div>
         </div>
     </div>
 
     <div class="form-grid">
         <div class="input-group">
-            <label>Tipo</label>
+            <label>Tipo de Entrada</label>
             <select id="tipo" onchange="toggleModo()">
                 <option value="revenda">Revenda</option>
                 <option value="producao">Produção</option>
             </select>
         </div>
         <div class="input-group">
-            <label>Produto</label>
-            <input type="text" id="nome" placeholder="Nome">
+            <label>Nome do Produto</label>
+            <input type="text" id="nome" placeholder="Ex: Dindin">
+        </div>
+        <div class="input-row">
+            <div class="input-group">
+                <label id="labelCusto">Custo Unit.</label>
+                <input type="number" id="custo" placeholder="0.00">
+            </div>
+            <div class="input-group">
+                <label id="labelQtd">Quantidade</label>
+                <input type="number" id="qtd" placeholder="0">
+            </div>
         </div>
         <div class="input-group">
-            <label id="labelCusto">Custo Unitário</label>
-            <input type="number" id="custo" step="0.01">
+            <label>Preço de Venda</label>
+            <input type="number" id="venda" placeholder="0.00">
         </div>
-        <div class="input-group">
-            <label id="labelQtd">Quantidade</label>
-            <input type="number" id="qtd">
-        </div>
-        <div class="input-group">
-            <label>Preço Venda</label>
-            <input type="number" id="venda" step="0.01">
-        </div>
-        <button class="btn-add" onclick="adicionar()">Adicionar</button>
+        <button class="btn-add" onclick="adicionar()">Adicionar Produto</button>
     </div>
 
-    <div class="tabela-container">
-        <table>
-            <thead>
-                <tr>
-                    <th>Produto</th>
-                    <th>Estoque</th>
-                    <th>Preço Un.</th>
-                    <th>Vendido</th>
-                    <th>Ação de Venda</th>
-                    <th>Opções</th>
-                </tr>
-            </thead>
-            <tbody id="corpoTabela"></tbody>
-        </table>
-    </div>
+    <div id="listaProdutos" class="lista-produtos">
+        </div>
 
-    <button onclick="zerarCaixa()" style="margin-top: 20px; background: none; border: 1px solid #475569; color: #94a3b8; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 0.7rem;">
-        Resetar Caixa do Dia
-    </button>
-</div>
-
-<div class="modal-overlay" id="modal">
-    <div class="modal">
-        <h3 id="modalTitle"></h3>
-        <p id="modalMsg" style="margin: 15px 0; color: #94a3b8;"></p>
-        <button onclick="fecharModal()" style="padding: 10px 20px; border-radius: 8px; border: none; background: #475569; color: white; cursor: pointer;">Fechar</button>
-    </div>
+    <button onclick="zerarCaixa()" class="btn-excluir">Limpar Faturamento do Dia</button>
 </div>
 
 <script>
-    // Agora salvamos as vendas totais separadamente para não perder ao recarregar
-    let produtos = JSON.parse(localStorage.getItem('estoque_v4')) || [];
-    let faturamentoAcumulado = parseFloat(localStorage.getItem('faturamento_v4')) || 0;
-    let custoVendidoAcumulado = parseFloat(localStorage.getItem('custovendido_v4')) || 0;
+    let produtos = JSON.parse(localStorage.getItem('estoque_v5')) || [];
+    let faturamento = parseFloat(localStorage.getItem('fatur_v5')) || 0;
+    let custoVendido = parseFloat(localStorage.getItem('custo_v5')) || 0;
 
     function toggleModo() {
-        const tipo = document.getElementById('tipo').value;
-        document.getElementById('labelCusto').innerText = tipo === 'producao' ? "Gasto Total Leva" : "Custo Unitário";
-        document.getElementById('labelQtd').innerText = tipo === 'producao' ? "Qtd Produzida" : "Qtd no Estoque";
+        const t = document.getElementById('tipo').value;
+        document.getElementById('labelCusto').innerText = t === 'producao' ? "Custo Total" : "Custo Unit.";
+        document.getElementById('labelQtd').innerText = t === 'producao' ? "Qtd Produzida" : "Quantidade";
     }
 
     function adicionar() {
         const tipo = document.getElementById('tipo').value;
         const nome = document.getElementById('nome').value.trim();
-        const custoBruto = parseFloat(document.getElementById('custo').value);
+        const custoB = parseFloat(document.getElementById('custo').value);
         const qtd = parseInt(document.getElementById('qtd').value);
         const venda = parseFloat(document.getElementById('venda').value);
 
-        if (!nome || isNaN(custoBruto) || isNaN(qtd) || isNaN(venda)) return;
+        if(!nome || isNaN(custoB) || isNaN(qtd)) return;
 
-        const custoUnit = tipo === 'producao' ? (custoBruto / qtd) : custoBruto;
+        const cUnit = tipo === 'producao' ? (custoB / qtd) : custoB;
 
         produtos.push({
             id: Date.now(),
             nome,
-            custoUnit,
+            custoUnit: cUnit,
             vendaUnit: venda,
             qtdEstoque: qtd,
-            qtdTotal: qtd,
             vendidos: 0
         });
 
-        atualizar();
+        salvar();
         limpar();
     }
 
-    function registrarVenda(id) {
-        const p = produtos.find(item => item.id === id);
-        if (p.qtdEstoque > 0) {
+    function vender(id) {
+        const p = produtos.find(i => i.id === id);
+        if(p.qtdEstoque > 0) {
             p.qtdEstoque--;
             p.vendidos++;
-            
-            // Soma ao faturamento real (Preço de venda)
-            faturamentoAcumulado += p.vendaUnit;
-            // Soma ao custo do que foi vendido (Para calcular lucro real)
-            custoVendidoAcumulado += p.custoUnit;
-
-            atualizar();
-        } else {
-            abrirModal("Esgotado", "Acabou o estoque deste produto!");
+            faturamento += p.vendaUnit;
+            custoVendido += p.custoUnit;
+            salvar();
         }
-    }
-
-    function atualizar() {
-        localStorage.setItem('estoque_v4', JSON.stringify(produtos));
-        localStorage.setItem('faturamento_v4', faturamentoAcumulado);
-        localStorage.setItem('custovendido_v4', custoVendidoAcumulado);
-        render();
-    }
-
-    function render() {
-        document.getElementById('faturamentoReal').innerText = `R$ ${faturamentoAcumulado.toFixed(2)}`;
-        document.getElementById('lucroReal').innerText = `R$ ${(faturamentoAcumulado - custoVendidoAcumulado).toFixed(2)}`;
-
-        const corpo = document.getElementById('corpoTabela');
-        corpo.innerHTML = produtos.map(p => `
-            <tr>
-                <td><strong>${p.nome}</strong></td>
-                <td><span style="color: ${p.qtdEstoque < 3 ? '#f87171' : '#94a3b8'}">${p.qtdEstoque} restam</span></td>
-                <td>R$ ${p.vendaUnit.toFixed(2)}</td>
-                <td><b style="color: #facc15">${p.vendidos} un</b></td>
-                <td><button class="btn-venda-acao" onclick="registrarVenda(${p.id})">VENDI +1</button></td>
-                <td><button onclick="excluir(${p.id})" style="background:none; border:none; color:#ef4444; cursor:pointer;">🗑️</button></td>
-            </tr>
-        `).join('') || '<tr><td colspan="6" style="text-align:center; padding:20px;">Nenhum produto</td></tr>';
     }
 
     function excluir(id) {
         produtos = produtos.filter(p => p.id !== id);
-        atualizar();
+        salvar();
+    }
+
+    function salvar() {
+        localStorage.setItem('estoque_v5', JSON.stringify(produtos));
+        localStorage.setItem('fatur_v5', faturamento);
+        localStorage.setItem('custo_v5', custoVendido);
+        render();
+    }
+
+    function render() {
+        document.getElementById('faturamentoReal').innerText = `R$ ${faturamento.toFixed(2)}`;
+        document.getElementById('lucroReal').innerText = `R$ ${(faturamento - custoVendido).toFixed(2)}`;
+
+        const container = document.getElementById('listaProdutos');
+        container.innerHTML = produtos.map(p => `
+            <div class="produto-card">
+                <div class="info-produto">
+                    <h3>${p.nome}</h3>
+                    <p>Venda: R$ ${p.vendaUnit.toFixed(2)} | Vendido: ${p.vendidos}</p>
+                    <div class="meta-info">
+                        <span class="badge-estoque" style="color: ${p.qtdEstoque < 3 ? '#f87171' : '#4ade80'}">
+                            📦 ${p.qtdEstoque} disponíveis
+                        </span>
+                    </div>
+                    <button onclick="excluir(${p.id})" style="background:none; border:none; color:#475569; font-size:0.6rem; margin-top:10px; text-align:left;">Excluir Produto</button>
+                </div>
+                <button class="btn-venda-mobile" onclick="vender(${p.id})">
+                    <span>+1</span>VENDA
+                </button>
+            </div>
+        `).join('');
     }
 
     function zerarCaixa() {
-        if(confirm("Deseja zerar o faturamento do dia? (Isso não apaga o estoque)")) {
-            faturamentoAcumulado = 0;
-            custoVendidoAcumulado = 0;
-            atualizar();
+        if(confirm("Zerar as vendas do dia?")) {
+            faturamento = 0; custoVendido = 0; salvar();
         }
     }
 
-    function abrirModal(t, m) {
-        document.getElementById('modalTitle').innerText = t;
-        document.getElementById('modalMsg').innerText = m;
-        document.getElementById('modal').classList.add('visible');
-    }
-    function fecharModal() { document.getElementById('modal').classList.remove('visible'); }
     function limpar() {
         document.getElementById('nome').value = '';
         document.getElementById('custo').value = '';
