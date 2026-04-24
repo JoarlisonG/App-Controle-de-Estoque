@@ -3,14 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Estoque Joarlison | Multi-Negócios</title>
+    <title>Estoque Joarlison | Tema & Gestão</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            /* Tema Escuro (Padrão) */
+            --bg-body: #0b1120;
+            --bg-container: rgba(30, 41, 59, 0.5);
+            --bg-card: #1e293b;
+            --bg-input: #0f172a;
+            --text-main: #f1f5f9;
+            --text-sub: #94a3b8;
+            --border: #334155;
+            --primary: #22c55e;
+            --accent: #facc15;
+        }
+
+        [data-theme="light"] {
+            /* Tema Claro */
+            --bg-body: #f1f5f9;
+            --bg-container: #ffffff;
+            --bg-card: #f8fafc;
+            --bg-input: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --border: #e2e8f0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
         
         body {
             font-family: 'Inter', system-ui, sans-serif;
-            background: #0b1120;
-            color: #f1f5f9;
+            background: var(--bg-body);
+            color: var(--text-main);
             padding: 15px;
             min-height: 100vh;
         }
@@ -18,17 +42,33 @@
         .container {
             max-width: 600px;
             margin: 0 auto;
-            background: rgba(30, 41, 59, 0.5);
+            background: var(--bg-container);
             backdrop-filter: blur(20px);
             border-radius: 28px;
             padding: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .theme-toggle {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 8px 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 1.2rem;
         }
 
         h1 {
-            text-align: center;
             font-size: 1.4rem;
-            margin-bottom: 20px;
             background: linear-gradient(120deg, #c084fc, #60a5fa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -43,14 +83,14 @@
         }
 
         .card-financeiro {
-            background: #1e293b;
+            background: var(--bg-card);
             padding: 15px;
             border-radius: 20px;
-            border: 1px solid #334155;
+            border: 1px solid var(--border);
             text-align: center;
         }
 
-        .card-financeiro .label { font-size: 0.6rem; color: #94a3b8; text-transform: uppercase; margin-bottom: 5px; }
+        .card-financeiro .label { font-size: 0.6rem; color: var(--text-sub); text-transform: uppercase; margin-bottom: 5px; }
         .card-financeiro .valor { font-size: 1.2rem; font-weight: 800; }
 
         /* Formulário */
@@ -58,21 +98,22 @@
             display: flex;
             flex-direction: column;
             gap: 12px;
-            background: rgba(15, 23, 42, 0.6);
+            background: var(--bg-card);
             padding: 18px;
             border-radius: 22px;
             margin-bottom: 25px;
+            border: 1px solid var(--border);
         }
 
         .input-group { display: flex; flex-direction: column; gap: 5px; }
-        label { font-size: 0.65rem; font-weight: 700; color: #64748b; padding-left: 5px; text-transform: uppercase; }
+        label { font-size: 0.65rem; font-weight: 700; color: var(--text-sub); padding-left: 5px; text-transform: uppercase; }
         
         input, select {
-            background: #0f172a;
-            border: 1px solid #334155;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
             padding: 12px;
             border-radius: 12px;
-            color: white;
+            color: var(--text-main);
             font-size: 0.95rem;
             width: 100%;
             outline: none;
@@ -81,7 +122,7 @@
         .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
         .btn-add {
-            background: #22c55e;
+            background: var(--primary);
             color: white;
             border: none;
             padding: 15px;
@@ -89,24 +130,23 @@
             font-weight: 800;
             margin-top: 10px;
             cursor: pointer;
-            text-transform: uppercase;
         }
 
         /* Lista de Itens */
         .produto-card {
-            background: #1e293b;
+            background: var(--bg-card);
             border-radius: 20px;
             padding: 15px;
             margin-bottom: 12px;
-            border: 1px solid #334155;
+            border: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 10px;
         }
 
-        .info h3 { font-size: 1rem; color: #fff; margin-bottom: 4px; }
-        .info p { font-size: 0.75rem; color: #94a3b8; }
+        .info h3 { font-size: 1rem; color: var(--text-main); margin-bottom: 4px; }
+        .info p { font-size: 0.75rem; color: var(--text-sub); }
+        
         .badge {
             display: inline-block;
             padding: 2px 6px;
@@ -114,10 +154,11 @@
             font-size: 0.6rem;
             font-weight: 800;
             margin-bottom: 5px;
+            color: #fff;
         }
 
         .btn-venda {
-            background: #facc15;
+            background: var(--accent);
             color: #000;
             border: none;
             width: 70px;
@@ -128,16 +169,27 @@
             cursor: pointer;
         }
 
-        .btn-venda:disabled { background: #334155; color: #64748b; cursor: not-allowed; }
+        /* Botão apagar individual */
+        .btn-delete-item {
+            background: none;
+            border: none;
+            color: #ef4444;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
 
-        /* Modal de Confirmação Customizado */
+        /* Modal */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); display: none; align-items: center; justify-content: center; z-index: 9999;
+            background: rgba(0,0,0,0.8); display: none; align-items: center; justify-content: center; z-index: 9999;
         }
         .modal {
-            background: #1e293b; padding: 25px; border-radius: 24px; text-align: center;
-            max-width: 320px; border: 1px solid #334155;
+            background: var(--bg-card); padding: 25px; border-radius: 24px; text-align: center;
+            max-width: 320px; border: 1px solid var(--border); color: var(--text-main);
         }
         .modal-btns { display: flex; gap: 10px; margin-top: 20px; }
         .modal-btns button { flex: 1; padding: 12px; border-radius: 10px; border: none; font-weight: 700; cursor: pointer; }
@@ -145,20 +197,21 @@
         .btn-confirm { background: #ef4444; color: white; }
 
         .show { display: flex; }
-
-        .footer-btns { display: flex; justify-content: center; margin-top: 10px; }
-        .btn-reset { background: none; border: none; color: #475569; font-size: 0.7rem; cursor: pointer; padding: 10px; }
+        .btn-reset { background: none; border: none; color: var(--text-sub); font-size: 0.7rem; cursor: pointer; padding: 10px; width: 100%; }
     </style>
 </head>
-<body>
+<body data-theme="dark">
 
 <div class="container">
-    <h1>Controle Joarlison</h1>
+    <header>
+        <h1>Estoque Pro</h1>
+        <button class="theme-toggle" onclick="toggleTheme()" id="themeIcon">🌙</button>
+    </header>
 
     <div class="resumo-financeiro">
         <div class="card-financeiro">
-            <div class="label">Caixa (Vendas)</div>
-            <div class="valor" id="faturamentoReal" style="color: #facc15;">R$ 0,00</div>
+            <div class="label">Caixa Hoje</div>
+            <div class="valor" id="faturamentoReal" style="color: var(--accent);">R$ 0,00</div>
         </div>
         <div class="card-financeiro">
             <div class="label">Lucro Real</div>
@@ -168,69 +221,70 @@
 
     <div class="form-grid">
         <div class="input-group">
-            <label>Modelo de Negócio</label>
+            <label>Modelo</label>
             <select id="tipo" onchange="toggleForm()">
                 <option value="producao">Produção (Dindin, Bolo...)</option>
-                <option value="revenda">Revenda / Brique (PS2, iPhone...)</option>
+                <option value="revenda">Revenda / Brique</option>
             </select>
         </div>
         <div class="input-group">
-            <label>Nome do Produto / Item</label>
-            <input type="text" id="nome" placeholder="Ex: Playstation 2">
+            <label>Nome do Produto</label>
+            <input type="text" id="nome" placeholder="Ex: iPhone 11">
         </div>
         <div class="row">
             <div class="input-group">
                 <label id="labelCusto">Custo Total</label>
                 <input type="number" id="custo" placeholder="0.00">
             </div>
-            <div class="input-group" id="groupQtd">
-                <label>Quantidade</label>
-                <input type="number" id="qtd" placeholder="1">
+            <div class="input-group">
+                <label>Qtd</label>
+                <input type="number" id="qtd" value="1">
             </div>
         </div>
         <div class="input-group">
-            <label>Preço de Venda (Unid.)</label>
+            <label>Preço Venda (un)</label>
             <input type="number" id="venda" placeholder="0.00">
         </div>
-        <button class="btn-add" onclick="adicionar()">Cadastrar no Estoque</button>
+        <button class="btn-add" onclick="adicionar()">Cadastrar Produto</button>
     </div>
 
     <div id="listaProdutos"></div>
 
-    <div class="footer-btns">
-        <button onclick="confirmarReset()" class="btn-reset">Zerar Faturamento do Dia</button>
-    </div>
+    <button onclick="abrirModalReset()" class="btn-reset">Zerar Caixa do Dia</button>
 </div>
 
 <div class="modal-overlay" id="modalConfirm">
     <div class="modal">
         <h3 id="modalTitle">Confirmar?</h3>
-        <p id="modalMsg" style="margin-top: 10px; color: #94a3b8; font-size: 0.9rem;"></p>
+        <p id="modalMsg" style="margin-top: 10px; color: var(--text-sub); font-size: 0.9rem;"></p>
         <div class="modal-btns">
             <button class="btn-cancel" onclick="fecharModal()">Voltar</button>
-            <button class="btn-confirm" id="btnConfirmAction">Sim, Zerar</button>
+            <button class="btn-confirm" id="btnConfirmAction">Confirmar</button>
         </div>
     </div>
 </div>
 
 <script>
-    let produtos = JSON.parse(localStorage.getItem('estoque_v6')) || [];
-    let faturamento = parseFloat(localStorage.getItem('fatur_v6')) || 0;
-    let custoVendido = parseFloat(localStorage.getItem('custo_v6')) || 0;
+    let produtos = JSON.parse(localStorage.getItem('estoque_v7')) || [];
+    let faturamento = parseFloat(localStorage.getItem('fatur_v7')) || 0;
+    let custoVendido = parseFloat(localStorage.getItem('custo_v7')) || 0;
+
+    // --- TEMA CLARO/ESCURO ---
+    function toggleTheme() {
+        const body = document.body;
+        const currentTheme = body.getAttribute('data-theme');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        body.setAttribute('data-theme', newTheme);
+        document.getElementById('themeIcon').innerText = newTheme === 'dark' ? '🌙' : '☀️';
+        localStorage.setItem('theme_v7', newTheme);
+    }
+
+    // Carregar tema salvo
+    if(localStorage.getItem('theme_v7') === 'light') toggleTheme();
 
     function toggleForm() {
         const t = document.getElementById('tipo').value;
-        const groupQtd = document.getElementById('groupQtd');
-        const labelCusto = document.getElementById('labelCusto');
-        
-        if (t === 'revenda') {
-            labelCusto.innerText = "Preço de Compra";
-            groupQtd.style.opacity = "0.3"; // Indica que geralmente é 1, mas deixa editar
-            document.getElementById('qtd').value = 1;
-        } else {
-            labelCusto.innerText = "Gasto na Produção";
-            groupQtd.style.opacity = "1";
-        }
+        document.getElementById('labelCusto').innerText = t === 'revenda' ? "Preço Compra" : "Gasto Produção";
     }
 
     function adicionar() {
@@ -242,16 +296,11 @@
 
         if(!nome || isNaN(custoB) || isNaN(venda)) return;
 
-        const cUnit = tipo === 'producao' ? (custoB / (qtd || 1)) : (custoB / (qtd || 1));
+        const cUnit = custoB / (qtd || 1);
 
         produtos.push({
-            id: Date.now(),
-            tipo,
-            nome,
-            custoUnit: cUnit,
-            vendaUnit: venda,
-            qtdEstoque: qtd || 1,
-            vendidos: 0
+            id: Date.now(), tipo, nome, custoUnit: cUnit, 
+            vendaUnit: venda, qtdEstoque: qtd || 1, vendidos: 0
         });
 
         salvar();
@@ -269,10 +318,41 @@
         }
     }
 
+    // --- EXCLUSÃO INDIVIDUAL COM MODAL ---
+    function confirmarExclusao(id) {
+        const p = produtos.find(item => item.id === id);
+        abrirModal(
+            "Apagar Produto?", 
+            `Deseja remover "${p.nome}" do estoque permanentemente?`,
+            () => {
+                produtos = produtos.filter(item => item.id !== id);
+                salvar();
+            }
+        );
+    }
+
+    function abrirModalReset() {
+        abrirModal(
+            "Zerar Caixa?", 
+            "Isso resetará o faturamento de hoje. O estoque não será alterado.",
+            () => { faturamento = 0; custoVendido = 0; salvar(); }
+        );
+    }
+
+    function abrirModal(titulo, msg, acao) {
+        const modal = document.getElementById('modalConfirm');
+        document.getElementById('modalTitle').innerText = titulo;
+        document.getElementById('modalMsg').innerText = msg;
+        modal.classList.add('show');
+        document.getElementById('btnConfirmAction').onclick = () => { acao(); fecharModal(); };
+    }
+
+    function fecharModal() { document.getElementById('modalConfirm').classList.remove('show'); }
+
     function salvar() {
-        localStorage.setItem('estoque_v6', JSON.stringify(produtos));
-        localStorage.setItem('fatur_v6', faturamento);
-        localStorage.setItem('custo_v6', custoVendido);
+        localStorage.setItem('estoque_v7', JSON.stringify(produtos));
+        localStorage.setItem('fatur_v7', faturamento);
+        localStorage.setItem('custo_v7', custoVendido);
         render();
     }
 
@@ -284,41 +364,18 @@
         container.innerHTML = produtos.map(p => `
             <div class="produto-card">
                 <div class="info">
-                    <span class="badge" style="background: ${p.tipo === 'producao' ? '#c084fc' : '#60a5fa'}; color: #fff">
-                        ${p.tipo === 'producao' ? 'PRODUÇÃO' : 'BRIQUE/REVENDA'}
+                    <span class="badge" style="background: ${p.tipo === 'producao' ? '#c084fc' : '#60a5fa'}">
+                        ${p.tipo === 'producao' ? 'PRODUÇÃO' : 'REVENDA'}
                     </span>
                     <h3>${p.nome}</h3>
-                    <p>Venda: R$ ${p.vendaUnit.toFixed(2)} | Vendido: ${p.vendidos}</p>
-                    <p style="color: ${p.qtdEstoque === 0 ? '#ef4444' : '#4ade80'}; font-weight: 800; margin-top: 5px;">
-                        ${p.qtdEstoque === 0 ? 'ESGOTADO' : '📦 ' + p.qtdEstoque + ' em estoque'}
-                    </p>
-                    <button onclick="excluir(${p.id})" style="background:none; border:none; color:#475569; font-size:0.6rem; margin-top:8px; cursor:pointer;">Remover Item</button>
+                    <p>Vendido: ${p.vendidos} | Estoque: <b>${p.qtdEstoque}</b></p>
+                    <button class="btn-delete-item" onclick="confirmarExclusao(${p.id})">🗑️ Apagar Produto</button>
                 </div>
                 <button class="btn-venda" onclick="vender(${p.id})" ${p.qtdEstoque === 0 ? 'disabled' : ''}>
-                    ${p.qtdEstoque === 0 ? '---' : 'VENDI<br>+1'}
+                    ${p.qtdEstoque === 0 ? 'FIM' : 'VENDI<br>+1'}
                 </button>
             </div>
         `).join('');
-    }
-
-    // FUNÇÕES DO MODAL
-    function confirmarReset() {
-        const modal = document.getElementById('modalConfirm');
-        document.getElementById('modalTitle').innerText = "Zerar Caixa?";
-        document.getElementById('modalMsg').innerText = "Isso vai resetar o faturamento e o lucro do dia para R$ 0,00. O estoque continuará igual.";
-        modal.classList.add('show');
-
-        document.getElementById('btnConfirmAction').onclick = () => {
-            faturamento = 0; custoVendido = 0; salvar();
-            fecharModal();
-        };
-    }
-
-    function fecharModal() { document.getElementById('modalConfirm').classList.remove('show'); }
-
-    function excluir(id) {
-        produtos = produtos.filter(p => p.id !== id);
-        salvar();
     }
 
     function limpar() {
