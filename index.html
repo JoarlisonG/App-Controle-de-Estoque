@@ -75,7 +75,6 @@
         .relatorio-lista { text-align: left; margin: 15px 0; font-size: 0.8rem; border-top: 1px solid var(--border); padding-top: 10px; }
         .relatorio-item { display: flex; justify-content: space-between; margin-bottom: 5px; }
         
-        /* Ajuste para inputs dentro de modais */
         .modal-input { margin-bottom: 10px; text-align: left; }
     </style>
 </head>
@@ -186,14 +185,14 @@
 </div>
 
 <script>
-    let produtos = JSON.parse(localStorage.getItem('stk_v14')) || [];
-    let fat = parseFloat(localStorage.getItem('ft_v14')) || 0;
-    let cst = parseFloat(localStorage.getItem('cs_v14')) || 0;
-    let historico = JSON.parse(localStorage.getItem('hist_v14')) || [];
-    let metaDiaria = parseFloat(localStorage.getItem('meta_v14')) || 0;
+    // Versão atualizada para garantir que o cache seja forçado
+    let produtos = JSON.parse(localStorage.getItem('stk_v16')) || [];
+    let fat = parseFloat(localStorage.getItem('ft_v16')) || 0;
+    let cst = parseFloat(localStorage.getItem('cs_v16')) || 0;
+    let historico = JSON.parse(localStorage.getItem('hist_v16')) || [];
+    let metaDiaria = parseFloat(localStorage.getItem('meta_v16')) || 0;
     let filtroAtual = 'todos';
 
-    // --- ANIMAÇÃO NOME ---
     const titulos = ["Controle de Estoque 📦", "Brique & Produção 💰", "Gestão de Vendas 📈", "Meu Negócio Pro 🚀"];
     let iTit = 0;
     setInterval(() => {
@@ -208,9 +207,9 @@
         const nt = b.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
         b.setAttribute('data-theme', nt);
         document.getElementById('themeIcon').innerText = nt === 'dark' ? '🌙' : '☀️';
-        localStorage.setItem('th_v14', nt);
+        localStorage.setItem('th_v16', nt);
     }
-    if(localStorage.getItem('th_v14') === 'light') toggleTheme();
+    if(localStorage.getItem('th_v16') === 'light') toggleTheme();
 
     function filtrar(tipo, btn) {
         filtroAtual = tipo;
@@ -219,7 +218,6 @@
         render();
     }
 
-    // --- MODAL PARA TUDO ---
     function resetModalDisplay() {
         document.getElementById('modalMsg').style.display = 'none';
         document.getElementById('relatorioDetalhado').style.display = 'none';
@@ -242,7 +240,6 @@
 
     function fecharModal() { document.getElementById('modalConfirm').classList.remove('show'); }
 
-    // --- FUNÇÕES ESPECÍFICAS DOS MODAIS ---
     function abrirModalMeta() {
         abrirModal("Definir Meta");
         document.getElementById('modalInputsArea').style.display = 'flex';
@@ -327,19 +324,23 @@
         const relEl = document.getElementById('relatorioDetalhado');
         relEl.style.display = 'block';
         let html = `<p style="font-size:0.7rem; margin-bottom:10px">${h.data}</p>`;
-        let texto = `📊 FECHAMENTO ${h.data}\n\n`;
+        let texto = `📊 FECHAMENTO ${h.data}
+
+`;
         h.itens.forEach(it => {
             html += `<div class="relatorio-item"><span>${it.nome} (x${it.qtd})</span><span>R$ ${it.valor}</span></div>`;
-            texto += `• ${it.nome} (x${it.qtd}): R$ ${it.valor}\n`;
+            texto += `• ${it.nome} (x${it.qtd}): R$ ${it.valor}
+`;
         });
         html += `<div class="relatorio-item" style="margin-top:10px; border-top:1px dashed var(--border); padding-top:10px;"><b>TOTAL</b><b>R$ ${h.fat}</b></div>`;
-        texto += `\n💰 TOTAL: R$ ${h.fat}\n📈 LUCRO: R$ ${h.luc}`;
+        texto += `
+💰 TOTAL: R$ ${h.fat}
+📈 LUCRO: R$ ${h.luc}`;
         relEl.innerHTML = html;
         document.getElementById('btnCopiarHist').style.display = 'block';
         document.getElementById('btnCopiarHist').onclick = () => copiarTexto(texto);
     }
 
-    // --- LOGICA GERAL ---
     function toggleForm() { document.getElementById('labelCusto').innerText = document.getElementById('tipo').value === 'revenda' ? "Preço de Compra" : "Gasto Produção"; }
 
     function adicionar() {
@@ -352,9 +353,14 @@
     function vender(id) { const p = produtos.find(i => i.id === id); if(p.qtdEstoque > 0) { p.qtdEstoque--; p.vendidos++; fat += p.vendaUnit; cst += p.custoUnit; salvar(); } }
 
     function copiarRelatorioAtual() {
-        let t = `📊 RELATÓRIO ATUAL (${new Date().toLocaleDateString()})\n\n`;
-        produtos.forEach(p => { if(p.vendidos > 0 || p.qtdEstoque > 0) t += `${p.nome}: ${p.qtdEstoque} estoque | ${p.vendidos} vendidos\n`; });
-        t += `\n💰 TOTAL: R$ ${fat.toFixed(2)}\n📈 LUCRO: R$ ${(fat-cst).toFixed(2)}`;
+        let t = `📊 RELATÓRIO ATUAL (${new Date().toLocaleDateString()})
+
+`;
+        produtos.forEach(p => { if(p.vendidos > 0 || p.qtdEstoque > 0) t += `${p.nome}: ${p.qtdEstoque} estoque | ${p.vendidos} vendidos
+`; });
+        t += `
+💰 TOTAL: R$ ${fat.toFixed(2)}
+📈 LUCRO: R$ ${(fat-cst).toFixed(2)}`;
         copiarTexto(t);
     }
 
@@ -371,11 +377,11 @@
     }
 
     function salvar() {
-        localStorage.setItem('stk_v14', JSON.stringify(produtos));
-        localStorage.setItem('ft_v14', fat);
-        localStorage.setItem('cs_v14', cst);
-        localStorage.setItem('hist_v14', JSON.stringify(historico));
-        localStorage.setItem('meta_v14', metaDiaria);
+        localStorage.setItem('stk_v16', JSON.stringify(produtos));
+        localStorage.setItem('ft_v16', fat);
+        localStorage.setItem('cs_v16', cst);
+        localStorage.setItem('hist_v16', JSON.stringify(historico));
+        localStorage.setItem('meta_v16', metaDiaria);
         render();
     }
 
@@ -413,6 +419,38 @@
 
     function limpar() { document.getElementById('nome').value = ''; document.getElementById('custo').value = ''; document.getElementById('venda').value = ''; document.getElementById('qtd').value = 1; }
     render();
+
+    // --- SERVICE WORKER INLINE PARA MODO OFFLINE ---
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        const swScript = `
+          const CACHE_NAME = 'estoque-pro-v2';
+          const urlsToCache = [
+            '/',
+            window.location.pathname,
+            window.location.href
+          ];
+
+          self.addEventListener('install', event => {
+            event.waitUntil(
+              caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+            );
+          });
+
+          self.addEventListener('fetch', event => {
+            event.respondWith(
+              caches.match(event.request).then(response => {
+                return response || fetch(event.request);
+              })
+            );
+          });
+        `;
+        const blob = new Blob([swScript], { type: 'text/javascript' });
+        navigator.serviceWorker.register(URL.createObjectURL(blob))
+          .then(reg => console.log('Offline pronto.'))
+          .catch(err => console.log('Erro offline:', err));
+      });
+    }
 </script>
 </body>
 </html>
