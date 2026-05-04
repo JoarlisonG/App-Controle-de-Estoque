@@ -680,7 +680,6 @@ body::after {
       <div class="hd-title">Estoque <em>Pro</em></div>
       <div class="hd-date" id="hdDate"></div>
     </div>
-    <button class="btn-theme" onclick="toggleTheme()" id="themeBtn">🌙</button>
   </div>
 
   <!-- METRICS -->
@@ -701,7 +700,7 @@ body::after {
   <div class="meta-card">
     <div class="meta-top">
       <div class="meta-lbl">Meta Diária</div>
-      <div class="meta-val" id="metaStatus" onclick="abrirModalMeta()">Definir ⚙️</div>
+      <div class="meta-val" id="metaStatus" onclick="abrirModalMeta()">Definir ⚙</div>
     </div>
     <div class="track">
       <div class="track-fill" id="metaFill"></div>
@@ -732,12 +731,12 @@ body::after {
         <label class="field-lbl">Modelo de Negócio</label>
         <select class="field-input" id="tipo" onchange="toggleForm()">
           <option value="producao">Produção — eu fabrico</option>
-          <option value="revenda">Revenda — brique / compra</option>
+          <option value="revenda">Revenda — compra e venda</option>
         </select>
       </div>
       <div>
         <label class="field-lbl">Nome do Produto</label>
-        <input class="field-input" type="text" id="nome" placeholder="Ex: iPhone 15, Dindin...">
+        <input class="field-input" type="text" id="nome" placeholder="Ex: iPhone 15, Camiseta...">
       </div>
       <div class="row-2">
         <div>
@@ -942,7 +941,7 @@ function editarProduto(id) {
 function confirmarExclusao(id) {
   const p = produtos.find(i=>i.id===id);
   abrirModal("Remover Produto", () => { produtos=produtos.filter(i=>i.id!==id); salvar(); },
-    { sub: Deseja remover "${p.nome}" do estoque?, confirmClass: 'danger', confirmLabel: 'Remover' });
+    { sub: `Deseja remover "${p.nome}" do estoque?`, confirmClass: 'danger', confirmLabel: 'Remover' });
 }
 
 // Reset caixa
@@ -964,14 +963,14 @@ function verDetalhesHist(idx) {
   abrirModal("Fechamento do Dia", null, { noConfirm: true });
   const el = document.getElementById('mReport');
   el.style.display='block';
-  let html = <div class="report-date">${h.data}</div>;
-  let texto = 📊 FECHAMENTO ${h.data}\n\n;
+  let html = `<div class="report-date">${h.data}</div>`;
+  let texto = `📊 FECHAMENTO ${h.data}\n\n`;
   h.itens.forEach(it => {
-    html += <div class="report-row"><span>${it.nome} ×${it.qtd}</span><span>R$ ${it.valor}</span></div>;
-    texto += • ${it.nome} (×${it.qtd}): R$ ${it.valor}\n;
+    html += `<div class="report-row"><span>${it.nome} ×${it.qtd}</span><span>R$ ${it.valor}</span></div>`;
+    texto += `• ${it.nome} (×${it.qtd}): R$ ${it.valor}\n`;
   });
-  html += <div class="report-row"><span>Total</span><span>R$ ${h.fat}</span></div>;
-  texto += \n💰 TOTAL: R$ ${h.fat}\n📈 LUCRO: R$ ${h.luc};
+  html += `<div class="report-row"><span>Total</span><span>R$ ${h.fat}</span></div>`;
+  texto += `\n💰 TOTAL: R$ ${h.fat}\n📈 LUCRO: R$ ${h.luc}`;
   el.innerHTML=html;
   document.getElementById('btnCopiarHist').style.display='block';
   document.getElementById('btnCopiarHist').onclick=()=>copiarTexto(texto);
@@ -993,13 +992,13 @@ function adicionar() {
 
 function vender(id) {
   const p=produtos.find(i=>i.id===id);
-  if(p.qtdEstoque>0) { p.qtdEstoque--; p.vendidos++; fat+=p.vendaUnit; cst+=p.custoUnit; salvar(); toast(✔️ ${p.nome} vendido!); }
+  if(p.qtdEstoque>0) { p.qtdEstoque--; p.vendidos++; fat+=p.vendaUnit; cst+=p.custoUnit; salvar(); toast(`✔ ${p.nome} vendido!`); }
 }
 
 function copiarRelatorioAtual() {
-  let t=📊 RELATÓRIO ATUAL (${new Date().toLocaleDateString()})\n\n;
-  produtos.forEach(p=>{if(p.vendidos>0||p.qtdEstoque>0) t+=${p.nome}: ${p.qtdEstoque} estoque | ${p.vendidos} vendidos\n;});
-  t+=\n💰 TOTAL: R$ ${fat.toFixed(2)}\n📈 LUCRO: R$ ${(fat-cst).toFixed(2)};
+  let t=`📊 RELATÓRIO ATUAL (${new Date().toLocaleDateString()})\n\n`;
+  produtos.forEach(p=>{if(p.vendidos>0||p.qtdEstoque>0) t+=`${p.nome}: ${p.qtdEstoque} estoque | ${p.vendidos} vendidos\n`;});
+  t+=`\n💰 TOTAL: R$ ${fat.toFixed(2)}\n📈 LUCRO: R$ ${(fat-cst).toFixed(2)}`;
   copiarTexto(t);
 }
 
@@ -1025,12 +1024,12 @@ function salvar() {
 }
 
 function render() {
-  document.getElementById('fatReal').textContent = R$ ${fat.toFixed(2)};
-  document.getElementById('lucReal').textContent = R$ ${(fat-cst).toFixed(2)};
+  document.getElementById('fatReal').textContent = `R$ ${fat.toFixed(2)}`;
+  document.getElementById('lucReal').textContent = `R$ ${(fat-cst).toFixed(2)}`;
 
   const perc = metaDiaria>0 ? Math.min((fat/metaDiaria)*100,100) : 0;
   document.getElementById('metaFill').style.width = perc+'%';
-  document.getElementById('metaStatus').textContent = metaDiaria>0 ? R$ ${fat.toFixed(0)} / R$ ${metaDiaria.toFixed(0)} ⚙️ : 'Definir ⚙️';
+  document.getElementById('metaStatus').textContent = metaDiaria>0 ? `R$ ${fat.toFixed(0)} / R$ ${metaDiaria.toFixed(0)} ⚙` : 'Definir ⚙';
 
   const b=document.getElementById('busca').value.toLowerCase();
   const filtrados=produtos.filter(p=>p.nome.toLowerCase().includes(b)&&(filtroAtual==='todos'||p.tipo===filtroAtual));
@@ -1038,7 +1037,7 @@ function render() {
   const lista = document.getElementById('lista');
 
   if(filtrados.length===0) {
-    lista.innerHTML=<div class="empty"><div class="empty-icon">📦</div><div class="empty-text">Nenhum produto aqui.<br>Cadastre o primeiro item acima.</div></div>;
+    lista.innerHTML=`<div class="empty"><div class="empty-icon">📦</div><div class="empty-text">Nenhum produto aqui.<br>Cadastre o primeiro item acima.</div></div>`;
   } else {
     lista.innerHTML = filtrados.map(p=>`
       <div class="prod-card ${p.tipo}">
@@ -1053,7 +1052,7 @@ function render() {
             <span>${p.vendidos} vendido${p.vendidos!==1?'s':''}</span>
           </div>
           <div class="prod-sub-actions">
-            <button class="btn-ghost" onclick="editarProduto(${p.id})">✏️ Editar</button>
+            <button class="btn-ghost" onclick="editarProduto(${p.id})">✏ Editar</button>
             <button class="btn-ghost danger" onclick="confirmarExclusao(${p.id})">✕ Remover</button>
           </div>
         </div>
